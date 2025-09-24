@@ -3,7 +3,9 @@ from .views import *
 
 urlpatterns = [
     path('', index, name='index'),
-    path('cats/<int:catid>/', categories, name='categories'),
     path('about/', about, name='about'),
-    re_path(r'^archive/(?P<year>\d{4})/$', archive, name='archive'),
+    path('addpage/', addpage, name='add_page'),
+    path('contact/', contact, name='contact'),
+    path('login/', login, name='login'),
+    path('post/<int:post_id>/', show_post, name='post'),
 ]

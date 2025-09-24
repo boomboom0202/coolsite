@@ -2,21 +2,36 @@ from django.http import Http404, HttpResponse, HttpResponseNotFound
 from django.shortcuts import redirect, render
 from .models import *
 
+menu = [{'title': "О нас", 'url_name': 'about'},
+        {'title': "Добавить статью", 'url_name': 'add_page'},
+        {'title': "Обратная связь", 'url_name': 'contact'},
+        {'title': "Войти", 'url_name': 'login'}]
+
+
 def index(request):
     posts = Women.objects.all()
-    return render(request, 'women/index.html', context={'title': 'Главная страница', 'posts': posts, 'menu': ['О нас', 'Добавить статью', 'Обратная связь', 'Войти']})
+    context = {
+        'posts': posts,
+        'menu': menu,
+        'title': 'Главная страница',
+        
+    }
+    return render(request, 'women/index.html', context = context)
 
 def about(request):
-    return render(request, 'women/about.html', context={'title': 'О нас', 'menu': ['О нас', 'Добавить статью', 'Обратная связь', 'Войти']})
+    return render(request, 'women/about.html', {'title': 'О сайте', 'menu' : menu})
 
-def categories(request, catid):
-    print(request.GET)
-    return HttpResponse(f"<h1>Страница категории {catid}</h1>")
+def addpage(request):
+    return HttpResponse("Добавление статьи")
 
-def archive(request, year):
-    if int(year) > 2025:
-        return redirect( index, permanent=True)
-    return HttpResponse(f"<h1>Архив по годам: {year}</h1>")
+def contact(request):
+    return HttpResponse("Обратная связь")
+
+def login(request):
+    return HttpResponse("Авторизация") 
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound("<h1>404 - Страница не найдена</h1>")
+
+def show_post(request, post_id):
+    return HttpResponse(f"Отображение статьи с номером {post_id}")
